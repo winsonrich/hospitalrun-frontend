@@ -403,12 +403,16 @@ export default {
   login: {
     messages: {
       signIn:  'please sign in',
-      error:    'Username or password is incorrect.'
+      error:    'Username or password is incorrect.',
+      forgotPassword: 'Forgot my password',
+      recoverySuccess: 'Sent recovery email to user',
+      missingUserError: 'User not found'
     },
     labels: {
       password: 'Password',
       username: 'Username',
-      signIn:  'Sign in'
+      signIn:  'Sign in',
+      forgotPassword: 'Recover password'
     }
   },
   loading: {

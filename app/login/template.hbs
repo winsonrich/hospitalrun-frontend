@@ -19,7 +19,9 @@
           </div>
 
           <button class="btn btn-lg btn-primary btn-block" type="submit">{{t 'login.labels.signIn'}}</button>
-
+          {{#link-to 'forgot-my-password' classNames='forgot-password'}}
+            Forgot your password?
+          {{/link-to}}
         </div>
 
     </form>

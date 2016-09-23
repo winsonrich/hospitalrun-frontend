@@ -71,6 +71,8 @@ Router.map(function() {
   });
 
   this.route('login');
+  this.route('forgot-my-password');
+
 
   this.route('medication', {
     resetNamespace: true
