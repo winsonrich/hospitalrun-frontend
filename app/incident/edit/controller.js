@@ -58,7 +58,7 @@ export default AbstractEditController.extend(IncidentStatuses, FriendlyId, Patie
   categoryNameList: computed('incidentCategoryList.@each.archived', function() {
     return PromiseArray.create({
       promise: get(this, 'incidentCategoryList').then((categoryList) => {
-        return categoryList.map((value) => {
+        return (categoryList || []).map((value) => {
           return {
             id: get(value, 'incidentCategoryName'),
             value: get(value, 'incidentCategoryName')

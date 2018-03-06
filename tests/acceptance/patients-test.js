@@ -123,6 +123,18 @@ test('Adding a new patient record', function(assert) {
   });
 });
 
+test('Adding a new patient record with always included custom form', function(assert) {
+  testPatientWithCustomForm(assert, true, false);
+});
+
+test('Adding a new patient record with an additional custom form', function(assert) {
+  testPatientWithCustomForm(assert, false, true);
+});
+
+test('Adding a new patient record with always included and additional custom form', function(assert) {
+  testPatientWithCustomForm(assert, true, true);
+});
+
 test('Delete a patient record', function(assert) {
   runWithPouchDump('patient', function() {
     authenticateUser();
@@ -217,5 +229,54 @@ function testExportReportName(reportName) {
         assert.equal($(exportReportButton).attr('download'), `${reportName} Report 12/11/2016 - 12/31/2016.csv`);
       });
     });
+  });
+}
+
+function testPatientWithCustomForm(assert, hasAlwaysIncludedForm, hasAdditionalForm) {
+  runWithPouchDump('default', function() {
+    authenticateUser();
+
+    if (hasAlwaysIncludedForm) {
+      createCustomFormForType('Patient', true);
+    }
+
+    if (hasAdditionalForm) {
+      createCustomFormForType('Patient', false);
+    }
+
+    visit('/patients/edit/new');
+
+    fillIn('.test-first-name input', 'John');
+    fillIn('.test-last-name input', 'Doe');
+
+    if (hasAlwaysIncludedForm) {
+      checkCustomFormIsDisplayed(assert, 'Test Custom Form for Patient included');
+    }
+
+    if (hasAdditionalForm) {
+      attachCustomForm('Test Custom Form for Patient NOT included');
+      checkCustomFormIsDisplayed(assert, 'Test Custom Form for Patient NOT included');
+    }
+
+    if (hasAlwaysIncludedForm) {
+      fillCustomForm('Test Custom Form for Patient included');
+    }
+
+    if (hasAdditionalForm) {
+      fillCustomForm('Test Custom Form for Patient NOT included');
+    }
+
+    click('.panel-footer button:contains(Add)');
+    waitToAppear('.message:contains(The patient record for John Doe has been saved)');
+    waitToAppear('.patient-summary');
+    click('#general');
+
+    if (hasAlwaysIncludedForm) {
+      checkCustomFormIsFilled(assert, 'Test Custom Form for Patient included');
+    }
+
+    if (hasAdditionalForm) {
+      checkCustomFormIsFilled(assert, 'Test Custom Form for Patient NOT included');
+    }
   });
 }
