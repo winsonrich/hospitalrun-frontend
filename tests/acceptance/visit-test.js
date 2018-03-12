@@ -62,18 +62,18 @@ test('Add admission visit', function(assert) {
   });
 });
 
-for (let testCase in opdReportTestCases) {
-  test(testCase, function(assert) {
+for (let opdReportTestCase in opdReportTestCases) {
+  test(opdReportTestCase, function(assert) {
     runWithPouchDump('patient', function() {
       authenticateUser();
 
-      (opdReportTestCases[testCase].customForms || []).forEach((f) => {
+      (opdReportTestCases[opdReportTestCase].customForms || []).forEach((f) => {
         createCustomFormForType(f.type, f.alwaysIncluded);
       });
 
       addVisit(assert, 'Clinic');
       andThen(() => {
-        addOutpatientData(assert, opdReportTestCases[testCase]);
+        addOutpatientData(assert, opdReportTestCases[opdReportTestCase]);
       });
       andThen(() => {
         newReport(assert, 'OPD');
@@ -85,9 +85,60 @@ for (let testCase in opdReportTestCases) {
         saveReport(assert, 'OPD');
       });
       andThen(() => {
-        viewReport(assert, 'OPD', opdReportTestCases[testCase]);
+        viewReport(assert, 'OPD', opdReportTestCases[opdReportTestCase]);
       });
     });
+  });
+}
+
+test('Add Visit with always included custom form', function (assert) {
+  testVisitWithCustomForms(assert, true, false);
+});
+
+function testVisitWithCustomForms(assert, hasAlwaysIncludedForm, hasAdditionalForm) {
+  runWithPouchDump('patient', function() {
+    authenticateUser();
+
+    if (hasAlwaysIncludedForm) {
+      createCustomFormForType('Visit', true);
+    }
+
+    if (hasAdditionalForm) {
+      createCustomFormForType('Visit', false);
+    }
+
+    addVisit(assert);
+
+    if (hasAlwaysIncludedForm) {
+      checkCustomFormIsDisplayed(assert, 'Test Custom Form for Visit included');
+    }
+
+    if (hasAdditionalForm) {
+      attachCustomForm('Test Custom Form for Visit NOT included');
+      checkCustomFormIsDisplayed(assert, 'Test Custom Form for Visit NOT included');
+    }
+
+    if (hasAlwaysIncludedForm) {
+      fillCustomForm('Test Custom Form for Visit included');
+    }
+
+    if (hasAdditionalForm) {
+      fillCustomForm('Test Custom Form for Visit NOT included');
+    }
+
+    updateVisit(assert, 'Update');
+
+    visit('/patients');
+    click('button:contains(Edit)');
+    click('.patient-history-item:last');
+
+    if (hasAlwaysIncludedForm) {
+      checkCustomFormIsFilled(assert, 'Test Custom Form for Visit included');
+    }
+
+    if (hasAdditionalForm) {
+      checkCustomFormIsFilled(assert, 'Test Custom Form for Visit NOT included');
+    }
   });
 }
 
