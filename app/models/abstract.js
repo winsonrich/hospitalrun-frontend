@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
 import { Model } from 'ember-pouch';
 import UserSession from 'hospitalrun/mixins/user-session';
 
@@ -10,7 +9,7 @@ const {
   isEmpty
 } = Ember;
 
-export default Model.extend(UserSession, EmberValidations, {
+export default Model.extend(UserSession, {
   session: inject.service(),
   archived: DS.attr('boolean', { defaultValue: false }),
   lastModified: DS.attr('date'),

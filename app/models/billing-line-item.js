@@ -2,10 +2,32 @@ import AbstractModel from 'hospitalrun/models/abstract';
 import DS from 'ember-data';
 import Ember from 'ember';
 import NumberFormat from 'hospitalrun/mixins/number-format';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed } = Ember;
 
-export default AbstractModel.extend(NumberFormat, {
+const Validations = buildValidations({
+  category: validator('presence', true),
+  discount: validator('number', {
+    allowBlank: true,
+    allowString: true
+  }),
+  nationalInsurance: validator('number', {
+    allowBlank: true,
+    allowString: true
+  }),
+  name: validator('presence', true),
+  privateInsurance: validator('number', {
+    allowBlank: true,
+    allowString: true
+  }),
+  total: validator('number', {
+    allowBlank: true,
+    allowString: true
+  })
+});
+
+export default AbstractModel.extend(NumberFormat, Validations, {
   // Attributes
   amountOwed: DS.attr('number'),
   category: DS.attr('string'),
@@ -35,34 +57,5 @@ export default AbstractModel.extend(NumberFormat, {
   }),
 
   detailTotals: Ember.computed.mapBy('details', 'amountOwed'),
-  total: Ember.computed.sum('detailTotals'),
-
-  validations: {
-    category: {
-      presence: true
-    },
-    discount: {
-      numericality: {
-        allowBlank: true
-      }
-    },
-    nationalInsurance: {
-      numericality: {
-        allowBlank: true
-      }
-    },
-    name: {
-      presence: true
-    },
-    privateInsurance: {
-      numericality: {
-        allowBlank: true
-      }
-    },
-    total: {
-      numericality: {
-        allowBlank: true
-      }
-    }
-  }
+  total: Ember.computed.sum('detailTotals')
 });

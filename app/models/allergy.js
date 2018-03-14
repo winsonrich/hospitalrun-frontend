@@ -1,17 +1,16 @@
 import AbstractModel from 'hospitalrun/models/abstract';
 import DS from 'ember-data';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default AbstractModel.extend({
+const Validations = buildValidations({
+  name: validator('presence', true)
+});
+
+export default AbstractModel.extend(Validations, {
   // Attributes
   name: DS.attr('string'),
   icd9CMCode: DS.attr('string'),
   icd10Code: DS.attr('string'),
   // Associations
-  patient: DS.belongsTo('patient'),
-
-  validations: {
-    name: {
-      presence: true
-    }
-  }
+  patient: DS.belongsTo('patient')
 });

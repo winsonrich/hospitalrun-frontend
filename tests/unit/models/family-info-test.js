@@ -1,11 +1,10 @@
 import { moduleForModel } from 'ember-qunit';
-
-import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/validate-properties';
+import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/test-valid-property-values';
 
 moduleForModel('family-info', 'Unit | Model | family-info', {
   needs: [
-    'ember-validations@validator:local/presence',
-    'ember-validations@validator:local/numericality'
+    'validator:presence',
+    'validator:number'
   ]
 });
 

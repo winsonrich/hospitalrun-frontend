@@ -2,14 +2,13 @@
  * Stub model for adding new patient diagnoses; needed for validation.
  */
 import DS from 'ember-data';
-import EmberValidations from 'ember-validations';
 import { Model } from 'ember-pouch';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default Model.extend(EmberValidations, {
-  diagnosis: DS.attr('string'),
-  validations: {
-    diagnosis: {
-      presence: true
-    }
-  }
+const Validations = buildValidations({
+  diagnosis: validator('presence', true)
+});
+
+export default Model.extend(Validations, {
+  diagnosis: DS.attr('string')
 });

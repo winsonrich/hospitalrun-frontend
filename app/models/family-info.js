@@ -2,9 +2,18 @@
  * Model for social worker family info
  */
 import DS from 'ember-data';
-import EmberValidations from 'ember-validations';
 import { Model } from 'ember-pouch';
-export default Model.extend(EmberValidations, {
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  age: validator('number', {
+    allowBlank: true,
+    allowString: true
+  }),
+  name: validator('presence', true)
+});
+
+export default Model.extend(Validations, {
   age: DS.attr('number'),
   civilStatus: DS.attr('string'),
   education: DS.attr('string'),
@@ -12,15 +21,5 @@ export default Model.extend(EmberValidations, {
   insurance: DS.attr('string'),
   name: DS.attr('string'),
   occupation: DS.attr('string'),
-  relationship: DS.attr('string'),
-  validations: {
-    age: {
-      numericality: {
-        allowBlank: true
-      }
-    },
-    name: {
-      presence: true
-    }
-  }
+  relationship: DS.attr('string')
 });
