@@ -284,3 +284,85 @@ function addItem(assert, itemName) {
       1, 'New incident category item appears');
   });
 }
+
+// test('Adding a new incident record with always included custom form', function(assert) {
+//   testIncidentWithCustomForm(assert, true, false);
+// });
+//
+// function testIncidentWithCustomForm(assert, hasAlwaysIncludedForm, hasAdditionalForm) {
+//   runWithPouchDump('incident', function() {
+//     authenticateUser();
+//
+//     if (hasAlwaysIncludedForm) {
+//       createCustomFormForType('Incident', true);
+//     }
+//
+//     if (hasAdditionalForm) {
+//       createCustomFormForType('Incident', false);
+//     }
+//
+//     let now = moment();
+//     visit('/incident');
+//     click('button:contains(+ new incident)');
+//     click('.sentinel-event input');
+//     fillIn('.incident-date input', now.format(DATE_TIME_FORMAT));
+//     typeAheadFillIn('.incident-department', DEPARTMENT);
+//     fillIn('.reported-to input', REPORTED_TO);
+//     fillIn('.incident-category select', INCIDENT_CATEGORY);
+//     waitToAppear(`.incident-category-item option:contains(${INCIDENT_CATEGORY_ITEM})`);
+//     select('.incident-category-item', INCIDENT_CATEGORY_ITEM);
+//     typeAheadFillIn('.patient-name', 'Joe Bagadonuts - P00001');
+//     waitToAppear('.patient-id:contains(P00001)');
+//     fillIn('.incident-description textarea', 'Patient blacked out and fell down.');
+//     click('.panel-footer button:contains(Add)');
+//     waitToAppear('.modal-dialog');
+//     click('.modal-footer button:contains(Ok)');
+//
+//     if (hasAlwaysIncludedForm) {
+//       click('.tab-nav li a:contains(Test Custom Form for Incident included)');
+//       checkCustomFormIsDisplayed(assert, 'Test Custom Form for Incident included', true);
+//     }
+//
+//     if (hasAdditionalForm) {
+//       attachCustomForm('Test Custom Form for Incident NOT included');
+//       click('.tab-nav li a:contains(Test Custom Form for Incident NOT included)');
+//       checkCustomFormIsDisplayed(assert, 'Test Custom Form for Incident NOT included', true);
+//     }
+//
+//     if (hasAlwaysIncludedForm) {
+//       click('.tab-nav li a:contains(Test Custom Form for Incident included)');
+//       fillCustomForm('Test Custom Form for Incident included', true);
+//     }
+//
+//     if (hasAdditionalForm) {
+//       click('.tab-nav li a:contains(Test Custom Form for Incident NOT included)');
+//       fillCustomForm('Test Custom Form for Incident NOT included', true);
+//     }
+//
+//     andThen(() => {
+//       click('.panel-footer button:contains(Update)');
+//       waitToAppear('.modal-dialog');
+//     });
+//     andThen(() => {
+//       click('.modal-footer button:contains(Ok)');
+//       waitToDisappear('.modal-dialog');
+//     });
+//     andThen(() => {
+//       click('.panel-footer button:contains(Return)');
+//     });
+//
+//     // click('.panel-footer button:contains(Add)');
+//     // waitToAppear('.message:contains(The patient record for John Doe has been saved)');
+//     // waitToAppear('.patient-summary');
+//     // click('#general');
+//     //
+//     // if (hasAlwaysIncludedForm) {
+//     //   checkCustomFormIsFilled(assert, 'Test Custom Form for Incident included');
+//     // }
+//     //
+//     // if (hasAdditionalForm) {
+//     //   checkCustomFormIsFilled(assert, 'Test Custom Form for Incident NOT included');
+//     // }
+//   });
+// }
+

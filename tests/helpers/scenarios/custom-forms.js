@@ -99,13 +99,23 @@ Ember.Test.registerAsyncHelper('createCustomFormForType', function(app, formType
   });
 });
 
-Ember.Test.registerAsyncHelper('checkCustomFormIsDisplayed', function(app, assert, header) {
-  waitToAppear(`h4:contains(${header})`);
+Ember.Test.registerAsyncHelper('checkCustomFormIsDisplayed', function(app, assert, header, inTabs) {
+  if (!inTabs) {
+    waitToAppear(`h4:contains(${header})`);
+  } else {
+    waitToAppear(`a:contains(${header})`);
+  }
 
   andThen(() => {
-    assert.equal(find(`h4:contains(${header})`).length, 1, `Form ${header} is displayed`);
-
-    let formDiv = find(`h4:contains(${header}) + .js-custom-form`);
+    let formDiv;
+    if (!inTabs) {
+      assert.equal(find(`h4:contains(${header})`).length, 1, `Form ${header} is displayed`);
+      formDiv = find(`h4:contains(${header}) + .js-custom-form`);
+    } else {
+      assert.equal(find(`a:contains(${header})`).length, 1, `Form ${header} is displayed in tab`);
+      let [tabAnchor] = find(`a:contains(${header})`);
+      formDiv = find(`${tabAnchor.hash} .js-custom-form`);
+    }
 
     assert.equal(find('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
 
@@ -127,8 +137,15 @@ Ember.Test.registerAsyncHelper('checkCustomFormIsDisplayed', function(app, asser
   });
 });
 
-Ember.Test.registerAsyncHelper('fillCustomForm', function(app, header) {
-  let formSelector = `h4:contains(${header}) + .js-custom-form`;
+Ember.Test.registerAsyncHelper('fillCustomForm', function(app, header, inTabs) {
+  let formSelector;
+  if (!inTabs) {
+    formSelector = `h4:contains(${header}) + .js-custom-form`;
+  } else {
+    let [tabAnchor] = find(`a:contains(${header})`);
+    formSelector = `${tabAnchor.hash} .js-custom-form`;
+  }
+
   select(`${formSelector} select`, crusts[2]);
   click(`${formSelector} input[type=checkbox]:last`);
   click(`${formSelector} input[type=radio]:nth(1)`);
