@@ -1,28 +1,11 @@
-import { moduleForModel, test } from 'ember-qunit';
-import {
-  testValidPropertyValues,
-  testInvalidPropertyValues
-} from '../../helpers/validate-properties';
+import { moduleForModel } from 'ember-qunit';
+import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/test-valid-property-values';
 
 moduleForModel('inventory-batch', 'Unit | Model | inventory-batch', {
   needs: [
-    'ember-validations@validator:local/presence',
-    'ember-validations@validator:local/numericality'
+    'validator:presence',
+    'validator:number'
   ]
-});
-
-test('haveInvoiceItems', function(assert) {
-  let inventoryBatch = this.subject({
-    invoiceItems: ['test have']
-  });
-
-  assert.strictEqual(inventoryBatch.haveInvoiceItems(), true);
-});
-
-test('haveInvoiceItems false', function(assert) {
-  let inventoryBatch = this.subject();
-
-  assert.strictEqual(inventoryBatch.haveInvoiceItems(), false);
 });
 
 testValidPropertyValues('dateReceived', ['test dr']);
