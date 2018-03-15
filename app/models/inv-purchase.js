@@ -3,8 +3,20 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import LocationName from 'hospitalrun/mixins/location-name';
 import NumberFormat from 'hospitalrun/mixins/number-format';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed } = Ember;
+
+const Validations = buildValidations({
+  purchaseCost: validator('number', {
+    allowString: true
+  }),
+  originalQuantity: validator('number', {
+    allowString: true,
+    gte: 0
+  }),
+  vendor: validator('presence', true)
+});
 
 function defaultQuantityGroups() {
   return [];
@@ -16,7 +28,7 @@ function defaultQuantityGroups() {
  * items to be shown as inventory items since the pouchdb adapter does a
  * retrieve for keys starting with 'inventory' to fetch inventory items.
  */
-let InventoryPurchaseItem = AbstractModel.extend(LocationName, NumberFormat, {
+let InventoryPurchaseItem = AbstractModel.extend(LocationName, NumberFormat, Validations, {
   purchaseCost: DS.attr('number'),
   lotNumber: DS.attr('string'),
   dateReceived: DS.attr('date'),
@@ -41,21 +53,7 @@ let InventoryPurchaseItem = AbstractModel.extend(LocationName, NumberFormat, {
       return 0;
     }
     return this._numberFormat(purchaseCost / quantity, true);
-  }),
-
-  validations: {
-    purchaseCost: {
-      numericality: true
-    },
-    originalQuantity: {
-      numericality: {
-        greaterThanOrEqualTo: 0
-      }
-    },
-    vendor: {
-      presence: true
-    }
-  }
+  })
 });
 
 export default InventoryPurchaseItem;

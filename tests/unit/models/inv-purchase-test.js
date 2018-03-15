@@ -1,11 +1,11 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/validate-properties';
+import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/test-valid-property-values';
 
 moduleForModel('inv-purchase', 'Unit | Model | inv-purchase', {
   needs: [
-    'ember-validations@validator:local/numericality',
-    'ember-validations@validator:local/presence'
+    'validator:presence',
+    'validator:number'
   ]
 });
 
