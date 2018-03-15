@@ -4,12 +4,13 @@ import Ember from 'ember';
 import IncidentStatuses, { REPORTED } from 'hospitalrun/mixins/incident-statuses';
 import moment from 'moment';
 import { validator } from 'ember-validations';
+import EmberValidations from 'ember-validations';
 
 const { attr, belongsTo, hasMany } = DS;
 
 const { computed, get, isEmpty, set } = Ember;
 
-export default AbstractModel.extend(IncidentStatuses, {
+export default AbstractModel.extend(IncidentStatuses, EmberValidations, {
   categoryItem: attr('string'),
   categoryName: attr('string'),
   customForms: DS.attr('custom-forms'),
