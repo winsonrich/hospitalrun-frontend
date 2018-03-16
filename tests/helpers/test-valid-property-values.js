@@ -9,18 +9,21 @@ function testPropertyValues(propertyName, values, isTestForValid, context) {
       let assertMessage = `Expected ${propertyName} to have ${validOrInvalid.toLowerCase()} value: ${value}${context ? ' with context' : ''}`;
 
       let model = this.subject();
-      Ember.run(model, 'set', propertyName, value);
+      //Ember.run(model, 'set', propertyName, value);
+      Ember.run(() => {
+        if (context && typeof context === 'function') {
+          context(model);
+        }
 
-      if (context && typeof context === 'function') {
-        context(model);
-      }
+        model.set(propertyName, value);
 
-      let { validations } = model.validateSync({ on: [propertyName] });
-      if (isTestForValid) {
-        assert.ok(validations.get('isValid'), assertMessage);
-      } else {
-        assert.notOk(validations.get('isValid'), assertMessage);
-      }
+        let { validations } = model.validateSync({ on: [propertyName] });
+        if (isTestForValid) {
+          assert.ok(validations.get('isValid'), assertMessage);
+        } else {
+          assert.notOk(validations.get('isValid'), assertMessage);
+        }
+      });
     });
   });
 }

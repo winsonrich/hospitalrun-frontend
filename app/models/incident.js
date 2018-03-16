@@ -3,14 +3,42 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import IncidentStatuses, { REPORTED } from 'hospitalrun/mixins/incident-statuses';
 import moment from 'moment';
-import { validator } from 'ember-validations';
-import EmberValidations from 'ember-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { attr, belongsTo, hasMany } = DS;
 
 const { computed, get, isEmpty, set } = Ember;
 
-export default AbstractModel.extend(IncidentStatuses, EmberValidations, {
+const Validations = buildValidations({
+  categoryName: validator('presence', true),
+  dateOfIncident: validator('presence', true),
+  department: validator('presence', true),
+  description: validator('presence', true),
+  patientTypeAhead: validator(function(value, options, model) {
+    let patientTypeAhead = value;
+    let isValid = true;
+    if (isEmpty(patientTypeAhead)) {
+      return true;
+    }
+    let patientName = model.get('patient.displayName');
+    if (isEmpty(patientName)) {
+      isValid = false;
+    } else {
+      let typeAheadName = patientTypeAhead.substr(0, patientName.length).toLowerCase();
+      if (patientName.toLowerCase().indexOf(typeAheadName) !== 0) {
+        isValid = false;
+      }
+    }
+    if (!isValid) {
+      let i18n = model.get('i18n');
+      return i18n.t('incident.messages.selectExistingPatient').toString();
+    }
+
+    return true;
+  })
+});
+
+export default AbstractModel.extend(IncidentStatuses, Validations, {
   categoryItem: attr('string'),
   categoryName: attr('string'),
   customForms: DS.attr('custom-forms'),
@@ -54,43 +82,5 @@ export default AbstractModel.extend(IncidentStatuses, EmberValidations, {
       set(this, 'typeAheadPatientName', value);
       return value;
     }
-
-  }),
-
-  validations: {
-    categoryName: {
-      presence: true
-    },
-    dateOfIncident: {
-      presence: true
-    },
-    department: {
-      presence: true
-    },
-    description: {
-      presence: true
-    },
-    patientTypeAhead: {
-      inline: validator(function() {
-        let patientTypeAhead = get(this, 'patientTypeAhead');
-        let isValid = true;
-        if (isEmpty(patientTypeAhead)) {
-          return;
-        }
-        let patientName = get(this, 'patient.displayName');
-        if (isEmpty(patientName)) {
-          isValid = false;
-        } else {
-          let typeAheadName = patientTypeAhead.substr(0, patientName.length).toLowerCase();
-          if (patientName.toLowerCase().indexOf(typeAheadName) !== 0) {
-            isValid = false;
-          }
-        }
-        if (!isValid) {
-          let i18n = get(this, 'i18n');
-          return i18n.t('incident.messages.selectExistingPatient').toString();
-        }
-      })
-    }
-  }
+  })
 });
