@@ -1,15 +1,14 @@
 import Ember from 'ember';
 import { test } from 'ember-qunit';
 
-function testPropertyValues(propertyName, values, isTestForValid, context) {
+function testPropertyValues(propertyName, values, isTestForValid, context, testDescription) {
   let validOrInvalid = (isTestForValid ? 'Valid' : 'Invalid');
 
-  test(`${validOrInvalid} ${propertyName}`, function(assert) {
+  test(`${validOrInvalid} ${propertyName} ${testDescription}`, function(assert) {
     values.forEach((value) => {
       let assertMessage = `Expected ${propertyName} to have ${validOrInvalid.toLowerCase()} value: ${value}${context ? ' with context' : ''}`;
 
       let model = this.subject();
-      //Ember.run(model, 'set', propertyName, value);
       Ember.run(() => {
         if (context && typeof context === 'function') {
           context(model);
@@ -28,10 +27,10 @@ function testPropertyValues(propertyName, values, isTestForValid, context) {
   });
 }
 
-export const testValidPropertyValues = function(propertyName, values, context) {
-  return testPropertyValues(propertyName, values, true, context);
+export const testValidPropertyValues = function(propertyName, values, context, testDescription) {
+  return testPropertyValues(propertyName, values, true, context, testDescription);
 };
 
-export const testInvalidPropertyValues = function(propertyName, values, context) {
-  return testPropertyValues(propertyName, values, false, context);
+export const testInvalidPropertyValues = function(propertyName, values, context, testDescription) {
+  return testPropertyValues(propertyName, values, false, context, testDescription);
 };

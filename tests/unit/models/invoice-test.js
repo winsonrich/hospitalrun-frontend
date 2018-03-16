@@ -1,5 +1,6 @@
 import { moduleForModel, test } from 'ember-qunit';
 import Ember from 'ember';
+import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/test-valid-property-values';
 
 moduleForModel('invoice', 'Unit | Model | invoice', {
   needs: [
@@ -9,9 +10,13 @@ moduleForModel('invoice', 'Unit | Model | invoice', {
     'model:payment',
     'model:billing-line-item',
     'model:line-item-detail',
-    'ember-validations@validator:local/acceptance',
-    'ember-validations@validator:local/numericality',
-    'ember-validations@validator:local/presence'
+    'model:allergy',
+    'model:diagnosis',
+    'model:operation-report',
+    'model:operative-plan',
+    'validator:presence',
+    'validator:number',
+    'validator:patient-typeahead'
   ]
 });
 
@@ -96,3 +101,51 @@ test('privateInsurance', function(assert) {
 
   assert.strictEqual(invoice.get('privateInsurance'), 14);
 });
+
+testValidPropertyValues('patientTypeAhead', ['John Doe', 'John Doe Junior'], function(subject) {
+  let patient;
+  Ember.run(() => {
+    patient = subject.get('store').createRecord('patient', {
+      firstName: 'John Doe'
+    });
+  });
+  subject.set('patient', patient);
+  subject.set('selectPatient', true);
+  subject.set('hasDirtyAttributes', true);
+});
+
+testInvalidPropertyValues('patientTypeAhead', ['John Doe', ''], function(subject) {
+  let patient;
+  Ember.run(() => {
+    patient = subject.get('store').createRecord('patient', {
+      firstName: 'James Doe'
+    });
+  });
+  subject.set('patient', patient);
+  subject.set('selectPatient', true);
+  subject.set('hasDirtyAttributes', true);
+});
+
+testValidPropertyValues('patientTypeAhead', ['John Doe', ''], function(subject) {
+  let patient;
+  Ember.run(() => {
+    patient = subject.get('store').createRecord('patient', {
+      firstName: 'James Doe'
+    });
+  });
+  subject.set('patient', patient);
+  subject.set('selectPatient', false);
+  subject.set('hasDirtyAttributes', true);
+}, 'When no select patient');
+
+testValidPropertyValues('patientTypeAhead', ['John Doe', ''], function(subject) {
+  let patient;
+  Ember.run(() => {
+    patient = subject.get('store').createRecord('patient', {
+      firstName: 'James Doe'
+    });
+  });
+  subject.set('patient', patient);
+  subject.set('selectPatient', true);
+  subject.set('hasDirtyAttributes', false);
+}, 'When no dirty attributes');

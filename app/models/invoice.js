@@ -3,11 +3,17 @@ import DateFormat from 'hospitalrun/mixins/date-format';
 import DS from 'ember-data';
 import Ember from 'ember';
 import NumberFormat from 'hospitalrun/mixins/number-format';
-import PatientValidation from 'hospitalrun/utils/patient-validation';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  patient: validator('presence', true),
+  visit: validator('presence', true),
+  patientTypeAhead: validator('patient-typeahead')
+});
 
 const { computed, get, set } = Ember;
 
-export default AbstractModel.extend(DateFormat, NumberFormat, {
+export default AbstractModel.extend(DateFormat, NumberFormat, Validations, {
   // Attributes
   billDate: DS.attr('date'),
   externalInvoiceNumber: DS.attr('string'),
@@ -134,15 +140,5 @@ export default AbstractModel.extend(DateFormat, NumberFormat, {
     if (remainingBalance <= 0) {
       set(this, 'status', 'Paid');
     }
-  }.observes('payments.[]', 'payments.@each.amount'),
-
-  validations: {
-    patientTypeAhead: PatientValidation.patientTypeAhead,
-    patient: {
-      presence: true
-    },
-    visit: {
-      presence: true
-    }
-  }
+  }.observes('payments.[]', 'payments.@each.amount')
 });
