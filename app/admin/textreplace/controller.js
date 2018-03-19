@@ -1,7 +1,12 @@
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default Ember.Controller.extend(EmberValidations, {
+const Validations = buildValidations({
+  'newExpansion.from': validator('presence', true),
+  'newExpansion.to': validator('presence', true)
+});
+
+export default Ember.Controller.extend(Validations, {
   hideCancelButton: true,
   updateCapability: 'update_config',
 
@@ -13,15 +18,6 @@ export default Ember.Controller.extend(EmberValidations, {
   actions: {
     cancelExpansion() {
       this.createExpansion();
-    }
-  },
-
-  validations: {
-    'newExpansion.from': {
-      presence: true
-    },
-    'newExpansion.to': {
-      presence: true
     }
   }
 });

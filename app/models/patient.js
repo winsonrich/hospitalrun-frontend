@@ -1,13 +1,23 @@
 import AbstractModel from 'hospitalrun/models/abstract';
 import DOBDays from 'hospitalrun/mixins/dob-days';
-import EmailValidation from 'hospitalrun/utils/email-validation';
 import Ember from 'ember';
 import DS from 'ember-data';
 import PatientName from 'hospitalrun/mixins/patient-name';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed, get } = Ember;
 
-export default AbstractModel.extend(DOBDays, PatientName, {
+const Validations = buildValidations({
+  firstName: validator('presence', true),
+  lastName: validator('presence', true),
+  email: validator('format', {
+    type: 'email',
+    message: 'Please, enter a valid email address',
+    allowBlank: true
+  })
+});
+
+export default AbstractModel.extend(DOBDays, PatientName, Validations, {
   // Attributes
   admitted: DS.attr('boolean', { defaultValue: false }),
   additionalContacts: DS.attr(),
@@ -94,21 +104,5 @@ export default AbstractModel.extend(DOBDays, PatientName, {
 
   shortDisplayName: computed('firstName', 'lastName', function() {
     return this.getPatientDisplayName(this, true);
-  }),
-
-  validations: {
-    email: {
-      format: {
-        with: EmailValidation.emailRegex,
-        allowBlank: true,
-        message: 'please enter a valid email address'
-      }
-    },
-    firstName: {
-      presence: true
-    },
-    lastName: {
-      presence: true
-    }
-  }
+  })
 });

@@ -3,12 +3,21 @@ import CanEditRequested from 'hospitalrun/mixins/can-edit-requested';
 import DateFormat from 'hospitalrun/mixins/date-format';
 import DS from 'ember-data';
 import Ember from 'ember';
-import PatientValidation from 'hospitalrun/utils/patient-validation';
-import ResultValidation from 'hospitalrun/mixins/result-validation';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed, get } = Ember;
 
-export default AbstractModel.extend(CanEditRequested, DateFormat, ResultValidation, {
+const Validations = buildValidations({
+  labTypeName: validator('presence', {
+    presence: true,
+    disabled: Ember.computed.not('model.isNew'),
+    message: 'Please select a lab type'
+  }),
+  patient: validator('presence', true),
+  patientTypeAhead: validator('patient-typeahead')
+});
+
+export default AbstractModel.extend(CanEditRequested, DateFormat, Validations, {
   // Attributes
   customForms: DS.attr('custom-forms'),
   labDate: DS.attr('date'),
@@ -30,22 +39,5 @@ export default AbstractModel.extend(CanEditRequested, DateFormat, ResultValidati
 
   requestedDateAsTime: computed('requestedDate', function() {
     return this.dateToTime(get(this, 'requestedDate'));
-  }),
-
-  validations: {
-    labTypeName: {
-      presence: {
-        'if'(object) {
-          if (object.get('isNew')) {
-            return true;
-          }
-        },
-        message: 'Please select a lab type'
-      }
-    },
-    patientTypeAhead: PatientValidation.patientTypeAhead,
-    patient: {
-      presence: true
-    }
-  }
+  })
 });

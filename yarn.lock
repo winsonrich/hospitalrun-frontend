@@ -5198,7 +5198,7 @@ ember-fullcalendar@1.8.0:
     fullcalendar "^3.6.0"
     fullcalendar-scheduler "^1.8.0"
 
-ember-getowner-polyfill@^1.0.0, ember-getowner-polyfill@^1.1.0, ember-getowner-polyfill@^1.2.2:
+ember-getowner-polyfill@^1.1.0, ember-getowner-polyfill@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/ember-getowner-polyfill/-/ember-getowner-polyfill-1.2.2.tgz#cdab739e89cc8f25af0f78735422df1a61193e92"
   dependencies:
@@ -5453,13 +5453,6 @@ ember-try@^0.2.15:
     rimraf "^2.3.2"
     rsvp "^3.0.17"
     semver "^5.1.0"
-
-ember-validations@2.0.0-alpha.5:
-  version "2.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/ember-validations/-/ember-validations-2.0.0-alpha.5.tgz#95af5bb5fcf43a5d18a6ddebe64594280bf988c0"
-  dependencies:
-    ember-cli-babel "^5.1.6"
-    ember-getowner-polyfill "^1.0.0"
 
 ember-validators@1.0.4:
   version "1.0.4"

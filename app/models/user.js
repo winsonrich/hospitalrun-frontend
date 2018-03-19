@@ -1,11 +1,17 @@
 import DS from 'ember-data';
-import EmailValidation from 'hospitalrun/utils/email-validation';
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
+
+const Validations = buildValidations({
+  email: validator('format', {
+    type: 'email',
+    message: 'Please, enter a valid email address'
+  })
+});
 
 const { computed } = Ember;
 
-let User = DS.Model.extend(EmberValidations, {
+let User = DS.Model.extend(Validations, {
   // Attributes
   derived_key: DS.attr('string'),
   deleted: DS.attr('boolean'),
@@ -26,16 +32,7 @@ let User = DS.Model.extend(EmberValidations, {
     if (!Ember.isEmpty(roles)) {
       return roles[0];
     }
-  }),
-
-  validations: {
-    email: {
-      format: {
-        with: EmailValidation.emailRegex,
-        message: 'Please, enter a valid email address'
-      }
-    }
-  }
+  })
 });
 
 export default User;
