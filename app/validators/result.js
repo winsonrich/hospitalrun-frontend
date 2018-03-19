@@ -1,31 +1,25 @@
 import Ember from 'ember';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
-const PatientTypeahead = BaseValidator.extend({
+const Result = BaseValidator.extend({
+  i18n: Ember.inject.service(),
+
   validate(value, options, model) {
-    if (!model.get('selectPatient')) {
-      return true;
-    }
     if (!model.get('hasDirtyAttributes')) {
       return true;
     }
-    let patientName = model.get('patient.displayName');
-    let patientTypeAhead = value;
-    if (Ember.isEmpty(patientName) || Ember.isEmpty(patientTypeAhead)) {
+
+    let status = model.get('status');
+    if (status === 'Completed' && Ember.isEmpty(value)) {
       // force validation to fail
-      return 'Please select a patient';
-    } else {
-      let typeAheadName = patientTypeAhead.substr(0, patientName.length).toLowerCase();
-      if (patientName.toLowerCase().indexOf(typeAheadName) !== 0) {
-        return 'Please select a patient';
-      }
+      return 'Please enter a result before completing'; // todo fix i18n
     }
-    // patient is properly selected; don't do any further validation
+
     return true;
   }
 });
 
-PatientTypeahead.reopenClass({
+Result.reopenClass({
   /**
    * Define attribute specific dependent keys for your validator
    *
@@ -43,4 +37,4 @@ PatientTypeahead.reopenClass({
   }
 });
 
-export default PatientTypeahead;
+export default Result;

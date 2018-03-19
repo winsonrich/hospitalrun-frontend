@@ -3,13 +3,76 @@ import AdjustmentTypes from 'hospitalrun/mixins/inventory-adjustment-types';
 import DS from 'ember-data';
 import Ember from 'ember';
 import LocationName from 'hospitalrun/mixins/location-name';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed } = Ember;
+
+const Validations = buildValidations({
+  inventoryItemTypeAhead: validator(function(value, options, model) {
+    if (!model.get('hasDirtyAttributes')) {
+      return true;
+    }
+    let itemName = model.get('inventoryItem.name');
+    let itemTypeAhead = value;
+    let requestedItems = model.get('requestedItems');
+    let status = model.get('status');
+    if (status === 'Requested') {
+      // Requested items don't show the type ahead and therefore don't need validation.
+      return 'Please select a valid inventory item';
+    }
+    if (Ember.isEmpty(itemName) || Ember.isEmpty(itemTypeAhead)) {
+      // force validation to fail if fields are empty and requested items are empty
+      return Ember.isEmpty(requestedItems) ? 'Please select a valid inventory item' : true;
+    } else {
+      let typeAheadName = itemTypeAhead.substr(0, itemName.length);
+      if (itemName !== typeAheadName) {
+        return 'Please select a valid inventory item';
+      }
+    }
+    // Inventory item is properly selected; don't do any further validation
+    return true;
+  }),
+  quantity: {
+    validators: [
+      validator('number', {
+        gt: 0,
+        allowString: true,
+        disabled: Ember.computed.notEmpty('model.requestedItems'),
+        message(type) {
+          if (type === 'gt') {
+            return 'must be greater than 0';
+          }
+        }
+      }),
+      validator(function(value, options, model) {
+        let isNew = model.get('isNew');
+        let requestQuantity = parseInt(value);
+        let transactionType = model.get('transactionType');
+        let quantityToCompare = null;
+        if (transactionType === 'Return') {
+          // no validation needed for returns
+          return true;
+        } else if (isNew && transactionType === 'Request') {
+          quantityToCompare = model.get('inventoryItem.quantity');
+        } else {
+          quantityToCompare = model.get('inventoryLocation.quantity');
+        }
+        if (requestQuantity > quantityToCompare) {
+          // force validation to fail
+          return 'The quantity must be less than or equal to the number of available items.';
+        } else {
+          // Diagnosis is properly set; don't do any further validation
+          return true;
+        }
+      })
+    ]
+  }
+});
 
 /**
  * Model to represent a request for inventory items.
  */
-let InventoryRequest = AbstractModel.extend(AdjustmentTypes, LocationName, {
+let InventoryRequest = AbstractModel.extend(AdjustmentTypes, LocationName, Validations, {
   adjustPurchases: DS.attr('boolean'),
   completedBy: DS.attr('string'),
   costPerUnit: DS.attr('number'),
@@ -68,78 +131,7 @@ let InventoryRequest = AbstractModel.extend(AdjustmentTypes, LocationName, {
 
   isTransfer: computed('transactionType', function() {
     return this.get('transactionType') === 'Transfer';
-  }),
-
-  validations: {
-    inventoryItemTypeAhead: {
-      acceptance: {
-        accept: true,
-        if(object) {
-          if (!object.get('hasDirtyAttributes')) {
-            return false;
-          }
-          let itemName = object.get('inventoryItem.name');
-          let itemTypeAhead = object.get('inventoryItemTypeAhead');
-          let requestedItems = object.get('requestedItems');
-          let status = object.get('status');
-          if (status === 'Requested') {
-            // Requested items don't show the type ahead and therefore don't need validation.
-            return false;
-          }
-          if (Ember.isEmpty(itemName) || Ember.isEmpty(itemTypeAhead)) {
-            // force validation to fail if fields are empty and requested items are empty
-            return Ember.isEmpty(requestedItems);
-          } else {
-            let typeAheadName = itemTypeAhead.substr(0, itemName.length);
-            if (itemName !== typeAheadName) {
-              return true;
-            }
-          }
-          // Inventory item is properly selected; don't do any further validation
-          return false;
-
-        },
-        message: 'Please select a valid inventory item'
-      }
-    },
-    quantity: {
-      numericality: {
-        greaterThan: 0,
-        messages: {
-          greaterThan: 'must be greater than 0'
-        },
-        if(object) {
-          let requestedItems = object.get('requestedItems');
-          return (Ember.isEmpty(requestedItems));
-        }
-      },
-      acceptance: {
-        accept: true,
-        if(object) {
-          let isNew = object.get('isNew');
-          let requestQuantity = parseInt(object.get('quantity'));
-          let transactionType = object.get('transactionType');
-          let quantityToCompare = null;
-          if (transactionType === 'Return') {
-            // no validation needed for returns
-            return false;
-          } else if (isNew && transactionType === 'Request') {
-            quantityToCompare = object.get('inventoryItem.quantity');
-          } else {
-            quantityToCompare = object.get('inventoryLocation.quantity');
-          }
-          if (requestQuantity > quantityToCompare) {
-            // force validation to fail
-            return true;
-          } else {
-            // Diagnosis is properly set; don't do any further validation
-            return false;
-          }
-        },
-        message: 'The quantity must be less than or equal to the number of available items.'
-      }
-    }
-  }
+  })
 });
 
 export default InventoryRequest;

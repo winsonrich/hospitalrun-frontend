@@ -3,12 +3,22 @@ import CanEditRequested from 'hospitalrun/mixins/can-edit-requested';
 import DateFormat from 'hospitalrun/mixins/date-format';
 import DS from 'ember-data';
 import Ember from 'ember';
-import PatientValidation from 'hospitalrun/utils/patient-validation';
-import ResultValidation from 'hospitalrun/mixins/result-validation';
+import { buildValidations, validator } from 'ember-cp-validations';
 
 const { computed } = Ember;
 
-export default AbstractModel.extend(CanEditRequested, DateFormat, ResultValidation, {
+const Validations = buildValidations({
+  imagingTypeName: validator('presence', {
+    presence: true,
+    disabled: Ember.computed.not('model.isNew'),
+    message: 'Please select an imaging type'
+  }),
+  patient: validator('presence', true),
+  patientTypeAhead: validator('patient-typeahead'),
+  result: validator('result')
+});
+
+export default AbstractModel.extend(CanEditRequested, DateFormat, Validations, {
   // Attributes
   imagingDate: DS.attr('date'),
   notes: DS.attr('string'),
@@ -31,22 +41,5 @@ export default AbstractModel.extend(CanEditRequested, DateFormat, ResultValidati
 
   requestedDateAsTime: computed('requestedDate', function() {
     return this.dateToTime(this.get('requestedDate'));
-  }),
-
-  validations: {
-    imagingTypeName: {
-      presence: {
-        'if'(object) {
-          if (object.get('isNew')) {
-            return true;
-          }
-        },
-        message: 'Please select an imaging type'
-      }
-    },
-    patientTypeAhead: PatientValidation.patientTypeAhead,
-    patient: {
-      presence: true
-    }
-  }
+  })
 });

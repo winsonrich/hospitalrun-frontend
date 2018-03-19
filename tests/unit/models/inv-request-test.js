@@ -3,14 +3,12 @@ import Ember from 'ember';
 import tHelper from 'ember-i18n/helper';
 import localeConfig from 'ember-i18n/config/en';
 
-import { testValidPropertyValues, testInvalidPropertyValues } from '../../helpers/validate-properties';
+import { testInvalidPropertyValues, testValidPropertyValues } from '../../helpers/test-valid-property-values';
 
 moduleForModel('inv-request', 'Unit | Model | inv-request', {
   needs: [
-    'ember-validations@validator:local/acceptance',
-    'ember-validations@validator:local/format',
-    'ember-validations@validator:local/numericality',
-    'ember-validations@validator:local/presence',
+    'validator:presence',
+    'validator:number',
     'model:allergy',
     'model:diagnosis',
     'model:inventory',
