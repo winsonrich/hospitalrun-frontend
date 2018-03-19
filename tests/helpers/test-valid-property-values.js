@@ -4,7 +4,7 @@ import { test } from 'ember-qunit';
 function testPropertyValues(propertyName, values, isTestForValid, context, testDescription) {
   let validOrInvalid = (isTestForValid ? 'Valid' : 'Invalid');
 
-  test(`${validOrInvalid} ${propertyName} ${testDescription}`, function(assert) {
+  test(`${validOrInvalid} ${propertyName} ${testDescription || ''}`, function(assert) {
     values.forEach((value) => {
       let assertMessage = `Expected ${propertyName} to have ${validOrInvalid.toLowerCase()} value: ${value}${context ? ' with context' : ''}`;
 

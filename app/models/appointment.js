@@ -2,11 +2,49 @@ import AbstractModel from 'hospitalrun/models/abstract';
 import DS from 'ember-data';
 import Ember from 'ember';
 import moment from 'moment';
-import PatientValidation from 'hospitalrun/utils/patient-validation';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const { computed } = Ember;
 
-export default AbstractModel.extend({
+const Validations = buildValidations({
+
+  appointmentDate: validator('presence', {
+    presence: true,
+    disabled: Ember.computed.equal('model.appointmentType', 'Admission')
+  }),
+
+  patientTypeAhead: validator('patient-typeahead'),
+
+  patient: validator('presence', true),
+  appointmentType: validator('presence', true),
+  startDate: validator('presence', true),
+  endDate: validator(function(value, options, model) {
+    if (!model.get('hasDirtyAttributes')) {
+      return true;
+    }
+    let allDay = model.get('allDay');
+    let startDate = model.get('startDate');
+    let endDate = value;
+    if (Ember.isEmpty(endDate) || Ember.isEmpty(startDate)) {
+      // force validation to fail
+      return 'Please select an end date later than the start date';
+    } else {
+      if (allDay) {
+        if (endDate.getTime() < startDate.getTime()) {
+          return 'Please select an end date later than the start date';
+        }
+      } else {
+        if (endDate.getTime() <= startDate.getTime()) {
+          return 'Please select an end date later than the start date';
+        }
+      }
+    }
+
+    return true;
+  })
+});
+
+export default AbstractModel.extend(Validations, {
   // Attributes
   allDay: DS.attr(),
   provider: DS.attr('string'),
@@ -67,59 +105,5 @@ export default AbstractModel.extend({
       formattedDate = this._getDateSpan(startDate, endDate, dateFormat);
     }
     return formattedDate;
-  }),
-
-  validations: {
-    appointmentDate: {
-      presence: {
-        if(object) {
-          let appointmentType = object.get('appointmentType');
-          return appointmentType !== 'Admission';
-        }
-      }
-    },
-
-    patientTypeAhead: PatientValidation.patientTypeAhead,
-
-    patient: {
-      presence: true
-    },
-    appointmentType: {
-      presence: true
-    },
-    startDate: {
-      presence: true
-    },
-    endDate: {
-      acceptance: {
-        accept: true,
-        if(object) {
-          if (!object.get('hasDirtyAttributes')) {
-            return false;
-          }
-          let allDay = object.get('allDay');
-          let startDate = object.get('startDate');
-          let endDate = object.get('endDate');
-          if (Ember.isEmpty(endDate) || Ember.isEmpty(startDate)) {
-            // force validation to fail
-            return true;
-          } else {
-            if (allDay) {
-              if (endDate.getTime() < startDate.getTime()) {
-                return true;
-              }
-            } else {
-              if (endDate.getTime() <= startDate.getTime()) {
-                return true;
-              }
-            }
-          }
-          // patient is properly selected; don't do any further validation
-          return false;
-
-        },
-        message: 'Please select an end date later than the start date'
-      }
-    }
-  }
+  })
 });

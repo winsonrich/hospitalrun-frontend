@@ -5,6 +5,6 @@ moduleFor('validator:patient-typeahead', 'Unit | Validator | patient-typeahead',
 });
 
 test('it works', function(assert) {
-  var validator = this.subject();
+  let validator = this.subject();
   assert.ok(validator);
 });
