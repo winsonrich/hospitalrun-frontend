@@ -1,5 +1,4 @@
 export default {
-  languageName: 'Thailand',
   admin: {
     address: {
       address1Label: 'ที่อยู่ Label 1',
@@ -214,13 +213,13 @@ export default {
     textReplacements: {
       createNew: 'สร้างรหัสย่อใหม่',
       existingRepl: 'รหัสย่อที่มีอยู่',
-      replDesc: 'เมื่อป้อนข้อความทางลัดเหล่านี้ช่วยให้คุณสามารถแทนที่อักขระสั้น ๆ ด้วยวลีที่ยาวขึ้นได้',
+      noMatches: "ไม่มีการทดแทนที่ตรงกัน '{{term}}'",
       pageTitle: 'ย่อ',
-      toReplace: 'ข้อความที่จะแทนที่',
-      replaceWith: 'แทนที่ด้วย',
       performExpand: "กด Enter เพื่อแทนที่ #{{from}} กับ '{{to}}'",
       possibleExpansions: 'ทางเลือกที่เป็นไปได้: {{possible}}',
-      noMatches: "ไม่มีการทดแทนที่ตรงกัน '{{term}}'"
+      replDesc: 'เมื่อป้อนข้อความทางลัดเหล่านี้ช่วยให้คุณสามารถแทนที่อักขระสั้น ๆ ด้วยวลีที่ยาวขึ้นได้',
+      replaceWith: 'แทนที่ด้วย',
+      toReplace: 'ข้อความที่จะแทนที่'
     },
     userRoles: 'บทบาทผู้ใช้',
     users: 'ผู้ใช้',
@@ -295,7 +294,7 @@ export default {
       newSurgicalAppointment: 'นัดผ่าตัดใหม่',
       theaterSchedule: 'กำหนดการโรงละคร'
     },
-    todayTitle: "การนัดหมายวันนี้"
+    todayTitle: 'การนัดหมายวันนี้'
   },
   billing: {
     alerts: {
@@ -321,8 +320,8 @@ export default {
       setFee: 'ภาษี'
     },
     messages: {
-      flatFeeMsg: 'มีค่าใช้จ่ายแบนสำหรับความรับผิดชอบทางการเงินของผู้ป่วย {{currency}} {{setFee}}',
-      flatDiscountMsg: 'มีการลดจำนวนเงินโดยใช้ความรับผิดชอบทางการเงินของผู้ป่วย {{currency}} {{discountAmount}}'
+      flatDiscountMsg: 'มีการลดจำนวนเงินโดยใช้ความรับผิดชอบทางการเงินของผู้ป่วย {{currency}} {{discountAmount}}',
+      flatFeeMsg: 'มีค่าใช้จ่ายแบนสำหรับความรับผิดชอบทางการเงินของผู้ป่วย {{currency}} {{setFee}}'
     }
   },
   buttons: {
@@ -336,8 +335,8 @@ export default {
     cancel: 'ยกเลิก',
     clear: 'ชัดเจน',
     close: 'ปิด',
-    complete: 'สมบูรณ์'
-     'ลบ': 'ลบ'
+    complete: 'สมบูรณ์',
+    'delete': 'ลบ',
     dispense: 'จ่ายยา',
     edit: 'แก้ไข',
     filter: 'กรอง',
@@ -411,7 +410,7 @@ export default {
         date: 'วันที่',
         location: 'ที่ตั้ง',
         type: 'ชนิด',
-        'กับ ':' ด้วย'
+        'with': ''
       },
       titles: { upcomingAppointments: 'การนัดหมายที่จะเกิดขึ้น' }
     }
@@ -427,33 +426,32 @@ export default {
     title: 'ยินดีต้อนรับสู่ HospitalRun!'
   },
   dates: {
-    'ยาว': '{{years}} ปี {{months}} เดือน {{days}} วัน',
+    'long': '{{years}} ปี {{months}} เดือน {{days}} วัน',
     longOmitDays: '{{years}} ปี {{months}} เดือน',
-    longOmitDaysPlural: '{{years}} years {{months}} months'
-    longOmitDaysYears: '{{months}} months'
-    longOmitYears: '{{months}} เดือน {{days}} วัน',
-    longPlural: '{{years}} years {{months}} months {{days}} days'
-    'สั้น': '{{years}} y {{months}} m {{days}} d'
-    shortOmitYears: '{{months}} m {{days}} d'
-   }
-
+    longOmitDaysPlural: '{{years}} years {{months}} months',
+    longOmitDaysYears: '{{months}} months',
+    longOmitYears: '{{months}} เดือน {{days}} วัน',
+    longPlural: '{{years}} years {{months}} months {{days}} days',
+    'short': '{{years}} y {{months}} m {{days}} d',
+    shortOmitYears: '{{months}} m {{days}} d'
+  },
   diagnosis: {
     labels: {
       activeDiagnosis: 'การวินิจฉัยที่ใช้งาน',
-      date: 'วันที่',
-      diagnosis: 'วินิจฉัย'
-      secondaryDiagnosis: 'การวินิจฉัยทุติยภูมิ'
-     }
-     titles: {
-      addDiagnosis: 'เพิ่มการวินิจฉัย',
-      editDiagnosis: 'แก้ไขการวินิจฉัย'
-     }
+      date: 'วันที่',
+      diagnosis: 'วินิจฉัย',
+      secondaryDiagnosis: 'การวินิจฉัยทุติยภูมิ'
+    },
+    titles: {
+      addDiagnosis: 'เพิ่มการวินิจฉัย',
+      editDiagnosis: 'แก้ไขการวินิจฉัย'
+    }
   },
   errors: {
     accepted: 'ต้องได้รับการยอมรับ',
-    blank: "ต้องไม่ว่างเปล่า",
-    confirmation: "ไม่ตรงกับ {{attribute}}",
-    empty: "ต้องว่างเปล่า",
+    blank: 'ต้องไม่ว่างเปล่า',
+    confirmation: 'ไม่ตรงกับ {{attribute}}',
+    empty: 'ต้องว่างเปล่า',
     equalTo: 'ต้องเท่ากับ {{count}}',
     even: 'ต้องเป็นไปได้',
     exclusion: 'สงวนไว้',
@@ -485,10 +483,10 @@ export default {
     buttons: { newButton: '+ การถ่ายภาพใหม่' },
     labels: {
       addNewVisit: '- เพิ่มการเข้าชมใหม่ -',
+      completedBy: 'เสร็จสมบูรณ์โดย',
       radiologist: 'รังสีแพทย์',
-      resultNotes: 'หมายเหตุผลลัพธ์',
       requestedNotes: 'หมายเหตุที่ร้องขอ',
-      completedBy: 'เสร็จสมบูรณ์โดย'
+      resultNotes: 'หมายเหตุผลลัพธ์'
     },
     messages: { noCompleted: 'ไม่พบรายการที่สมบูรณ์' },
     pageTitle: 'คำขอการถ่ายภาพ',
@@ -508,7 +506,7 @@ export default {
       'delete': 'ลบ',
       download: 'ดาวน์โหลด',
       edit: 'แก้ไข',
-      'export ':' Export Report ',
+      'export': '',
       generateRep: 'สร้างรายงาน',
       newAttachment: '+ เอกสารแนบใหม่',
       newCategory: '+ หมวดหมู่ใหม่',
@@ -665,7 +663,7 @@ export default {
       print: 'พิมพ์',
       printBarcode: 'พิมพ์บาร์โค้ด',
       printer: 'เครื่องพิมพ์',
-      pullFrom:'ดึงจาก',
+      pullFrom: 'ดึงจาก',
       purchaseCost: 'ซื้อต้นทุน',
       purchaseInfo: 'ข้อมูลการสั่งซื้อ',
       purchases: 'ซื้อ',
@@ -721,7 +719,7 @@ export default {
       expenseDetail: 'ค่าใช้จ่ายโดยละเอียด',
       expenseSum: 'สรุปค่าใช้จ่าย',
       expiration: 'วันหมดอายุ',
-      'ส่งออก': 'Export Report',
+      'export': '',
       fields: 'ฟิลด์ที่จะรวม',
       finance: 'สรุปการเงิน',
       generate: 'สร้างรายงาน',
@@ -805,7 +803,7 @@ export default {
     dateOfBirthShort: 'DoB',
     datePaid: 'วันที่ที่ชำระเงิน',
     dateRequested: 'วันที่ที่ร้องขอ',
-    'ลบ ':' ลบ ',
+    'delete': '',
     deleteRequest: 'ลบคำขอ',
     deleteUser: 'ลบผู้ใช้',
     department: 'แผนก',
@@ -842,8 +840,8 @@ export default {
     lookupType: 'ประเภทการค้นหา',
     medication: 'ยา',
     name: 'ชื่อ',
-    newUser: 'ผู้ใช้ใหม่',
     newItem: '+ ไอเท็มใหม่',
+    newUser: 'ผู้ใช้ใหม่',
     note: 'บันทึก',
     notes: 'หมายเหตุ',
     number: 'จำนวน',
@@ -908,20 +906,21 @@ export default {
     requestsTitle: 'คำขอจากห้องปฏิบัติการ',
     sectionTitle: 'Labs'
   },
+  languageName: 'Thailand',
   loading: {
     messages: {
       '0': 'ความเร็วในการบินผีเสื้อด้านบนอยู่ที่ 12 ไมล์ต่อชั่วโมง ผีเสื้อบางตัวสามารถบินได้ 25 ไมล์ต่อชั่วโมง! ',
-      '1': 'นกฮูกเป็นนกเพียงตัวเดียวที่สามารถมองเห็นสีน้ำเงิน',
-      '2': 'แมวมีเสียงร้องมากกว่า 100 เสียง; สุนัขมีเพียง 10 ',
-      '3': 'มนุษย์ใช้กล้ามเนื้อทั้งหมด 72 ชนิดในการพูด',
-      '4': 'มีการพูดถึงมากกว่า 1,000 ภาษาในทวีปแอฟริกา',
-      '5': 'erythrophobe เป็นคนที่แดงขึ้นอย่างง่ายดาย',
-      '6': 'ความหวาดกลัวที่พบบ่อยที่สุดในโลกคืออาการ odynophobia ซึ่งเป็นความกลัวของอาการปวด',
-      '7': 'ร่างกายของคุณใช้ 300 กล้ามเนื้อเพื่อความสมดุลของตัวเองเมื่อคุณกำลังยืนนิ่ง',
-      '8': 'กบบางตัวสามารถแช่แข็งแข็งแล้วละลายและยังคงมีชีวิตอยู่',
-      '9': 'ตาของเรามีขนาดเท่ากันตั้งแต่แรกเกิด แต่จมูกและหูของเราก็ไม่เคยหยุดนิ่ง',
-      '10':' ลิ้นของคุณเป็นกล้ามเนื้อเดียวในร่างกายของคุณที่ติดอยู่ที่ปลายข้างเดียว ',
-      '11': 'อูฐมีสามเปลือกตาเพื่อป้องกันตัวเองจากการเป่าทราย'
+      '1': 'นกฮูกเป็นนกเพียงตัวเดียวที่สามารถมองเห็นสีน้ำเงิน',
+      '2': 'แมวมีเสียงร้องมากกว่า 100 เสียง; สุนัขมีเพียง 10 ',
+      '3': 'มนุษย์ใช้กล้ามเนื้อทั้งหมด 72 ชนิดในการพูด',
+      '4': 'มีการพูดถึงมากกว่า 1,000 ภาษาในทวีปแอฟริกา',
+      '5': 'erythrophobe เป็นคนที่แดงขึ้นอย่างง่ายดาย',
+      '6': 'ความหวาดกลัวที่พบบ่อยที่สุดในโลกคืออาการ odynophobia ซึ่งเป็นความกลัวของอาการปวด',
+      '7': 'ร่างกายของคุณใช้ 300 กล้ามเนื้อเพื่อความสมดุลของตัวเองเมื่อคุณกำลังยืนนิ่ง',
+      '8': 'กบบางตัวสามารถแช่แข็งแข็งแล้วละลายและยังคงมีชีวิตอยู่',
+      '9': 'ตาของเรามีขนาดเท่ากันตั้งแต่แรกเกิด แต่จมูกและหูของเราก็ไม่เคยหยุดนิ่ง',
+      '10': ' ลิ้นของคุณเป็นกล้ามเนื้อเดียวในร่างกายของคุณที่ติดอยู่ที่ปลายข้างเดียว ',
+      '11': 'อูฐมีสามเปลือกตาเพื่อป้องกันตัวเองจากการเป่าทราย'
     },
     progressBar: { progress: '{{progressBarValue}}% เสร็จสิ้น' }
   },
@@ -975,7 +974,7 @@ export default {
   messages: {
     createNewRecord: 'สร้างระเบียนใหม่หรือไม่?',
     createNewUser: 'สร้างผู้ใช้ใหม่หรือไม่?',
-    'ลบ ':' คุณแน่ใจหรือว่าต้องการลบ {{name}}? ',
+    'delete': '',
     delete_plural: 'คุณแน่ใจหรือไม่ว่าต้องการลบ {{name}} เหล่านี้',
     delete_singular: 'คุณแน่ใจหรือไม่ว่าต้องการลบ {{name}} นี้',
     forAuthorizedPersons: 'รายงานฉบับนี้มีไว้สำหรับผู้มีอำนาจเท่านั้น',
@@ -1094,9 +1093,7 @@ export default {
     inventory: 'สินค้าคงคลัง',
     labs: 'Labs',
     medication: 'ยา',
-    messages: {
-      logoutFailed: 'ไม่สามารถออกจากระบบได้ในขณะนี้ การออกจากระบบไม่สามารถใช้งานได้ขณะออฟไลน์'
-    },
+    messages: { logoutFailed: 'ไม่สามารถออกจากระบบได้ในขณะนี้ การออกจากระบบไม่สามารถใช้งานได้ขณะออฟไลน์' },
     patients: 'ผู้ป่วย',
     scheduling: 'การกำหนด',
     subnav: {
@@ -1136,14 +1133,12 @@ export default {
       scheduleSurgery: 'กำหนดการศัลยกรรม',
       textReplacements: 'ย่อ',
       theaterSchedule: 'กำหนดการโรงละคร',
-      "การนัดหมายในวันนี้ ":" การนัดหมายในวันนี้",
+      "today'sAppointments": '',
       userRoles: 'บทบาทผู้ใช้',
       users: 'ผู้ใช้',
       workflow: 'ขั้นตอนการทำงาน'
     },
-    titles: {
-      logoutFailed: 'ออกจากระบบผิดพลาด'
-    }
+    titles: { logoutFailed: 'ออกจากระบบผิดพลาด' }
   },
   operationReport: {
     labels: {
@@ -1284,7 +1279,7 @@ export default {
       admissionsDetail: 'รายละเอียดการรับเข้าเรียน',
       admissionsSummary: 'สรุปการรับเข้าศึกษา',
       admittedPatients: 'ผู้ป่วยที่เข้ารับการรักษา',
-      'ลบ ':' ลบผู้ป่วย',
+      'delete': '',
       deleteContact: 'ลบที่อยู่ติดต่อ',
       deleteExpense: 'ลบค่าใช้จ่าย',
       deleteFamilyMember: 'ลบสมาชิกในครอบครัว',
@@ -1298,7 +1293,7 @@ export default {
       expenses: 'รายจ่าย',
       familyInfo: 'ข้อมูลครอบครัว',
       familyInformation: 'ข้อมูลครอบครัว',
-      'ใหม่ ':' New Patient',
+      'new': '',
       outpatientsForDate: 'ผู้ป่วยนอกสำหรับ {{visitDate}}',
       patient: 'รายงานผู้ป่วย',
       patientListing: 'รายชื่อผู้ป่วย',
@@ -1308,19 +1303,17 @@ export default {
       proceduresSummary: 'สรุปกระบวนการ',
       savedPatient: 'บันทึกผู้ป่วยแล้ว',
       socialWork: 'ค่าใช้จ่าย',
-      todaysOutpatients: "ผู้ป่วยนอกในวันนี้",
+      todaysOutpatients: 'ผู้ป่วยนอกในวันนี้',
       totalPatientDays: 'จำนวนวันป่วยทั้งหมด',
       totalPatientDaysDetailed: 'จำนวนผู้ป่วยทั้งหมด (รายละเอียด)',
       visit: 'Visit'
     }
   },
-  pricing: {
-    labels: {
-      discountAmount: 'จำนวนส่วนลด',
-      discountPercentage: 'เปอร์เซ็นต์ส่วนลด',
-      setFee: 'ตั้งค่า'
-    }
-  },
+  pricing: { labels: {
+    discountAmount: 'จำนวนส่วนลด',
+    discountPercentage: 'เปอร์เซ็นต์ส่วนลด',
+    setFee: 'ตั้งค่า'
+  } },
   print: { invoice: {
     labels: {
       billedBy: 'เรียกเก็บโดย:',
@@ -1339,7 +1332,7 @@ export default {
     titles: {
       billingStatement: 'การเรียกเก็บเงิน',
       patientMember: 'ผู้ป่วยที่เป็นสมาชิก',
-      patients: "ของผู้ป่วย",
+      patients: 'ของผู้ป่วย',
       relContact: 'ความสัมพันธ์ / เบอร์ติดต่อ.'
     }
   } },
@@ -1356,7 +1349,7 @@ export default {
       editChargeItem: 'แก้ไขรายการค่า',
       editMedicationUsed: 'แก้ไขยาที่ใช้',
       medicationUsed: 'ใช้ยา',
-      'ใหม่': 'ขั้นตอนใหม่',
+      'new': '',
       saved: 'บันทึกขั้นตอนแล้ว'
     }
   },
@@ -1391,7 +1384,7 @@ export default {
       visitType: 'ประเภทการเข้าชม'
     },
     messages: {
-      'ลบ': 'คุณแน่ใจหรือว่าต้องการลบรายงานนี้?',
+      'delete': '',
       saved: 'บันทึกรายงานแล้ว.'
     },
     titles: {
@@ -1475,16 +1468,14 @@ export default {
       visitSaved: 'ไปที่บันทึกไว้'
     }
   },
-  vitals: {
-    labels: {
-      dateRecorded: 'วันที่ที่บันทึก',
-      dbp: 'DBP',
-      heartRate: 'อัตราการเต้นของหัวใจ',
-      height: 'ความสูง',
-      respiratoryRate: 'อัตราการหายใจ',
-      sbp: 'SBP',
-      temperature: 'อุณหภูมิ',
-      weight: 'น้ำหนัก'
-    }
-  }
+  vitals: { labels: {
+    dateRecorded: 'วันที่ที่บันทึก',
+    dbp: 'DBP',
+    heartRate: 'อัตราการเต้นของหัวใจ',
+    height: 'ความสูง',
+    respiratoryRate: 'อัตราการหายใจ',
+    sbp: 'SBP',
+    temperature: 'อุณหภูมิ',
+    weight: 'น้ำหนัก'
+  } }
 };

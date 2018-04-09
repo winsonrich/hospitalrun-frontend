@@ -875,7 +875,7 @@ export default {
     to: 'À',
     total: 'Total',
     type: 'Type',
-    userCanAddNewValue: 'L\'utilisateur peut ajouter de nouvelles valeurs',
+    userCanAddNewValue: "L'utilisateur peut ajouter de nouvelles valeurs",
     username: "Nom d'utilisateur",
     value: 'Valeur',
     view: 'Afficher',
