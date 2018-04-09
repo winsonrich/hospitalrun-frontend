@@ -63,8 +63,8 @@ test('a user is able to recover their password', function(assert) {
   visit('/');
 
   click('.forgot-password').then(function() {
-    assert.equal(find('.form-signin-heading'), "Forgot my password")
-  })
+    assert.equal(find('.form-signin-heading'), 'Forgot my password');
+  });
 });
 
 function login(assert, spaceAroundUsername) {

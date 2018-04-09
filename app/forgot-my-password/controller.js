@@ -1,6 +1,8 @@
-import Ember from 'ember';
-export default Ember.Controller.extend({
-  ajax: Ember.inject.service(),
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+
+export default Controller.extend({
+  ajax: service(),
   actions: {
     recoverPassword() {
       let username = this.get('identification');
