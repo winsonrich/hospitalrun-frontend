@@ -24,6 +24,15 @@ var config = {
   pushPrivateKey: false,
   pushContactInfo: 'mailto:YOUR ADMIN EMAIL HERE'
   */
+
+  smtpConfig: { // corresponds to nodemailer smtp options object (https://nodemailer.com/smtp/)
+    host: 'smtp.sendgrid.net',
+    port: 587,
+    auth: {
+      user: 'YOUR_USERNAME',
+      pass: 'YOUR_PASSWORD'
+    }
+  }
 };
 
 config.couchCredentials = function() {
