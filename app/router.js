@@ -77,6 +77,8 @@ Router.map(function() {
   });
 
   this.route('login');
+  this.route('forgot-my-password');
+
 
   this.route('medication', function() {
     this.route('completed');

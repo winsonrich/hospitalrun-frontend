@@ -56,8 +56,15 @@ test('incorrect credentials shows an error message on the screen', function(asse
     andThen(function() {
       assert.equal(find('.form-signin-alert').text(), errorMessage, 'Error reason is shown');
     });
-
   });
+});
+
+test('a user is able to recover their password', function(assert) {
+  visit('/');
+
+  click('.forgot-password').then(function() {
+    assert.equal(find('.form-signin-heading'), "Forgot my password")
+  })
 });
 
 function login(assert, spaceAroundUsername) {
