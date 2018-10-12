@@ -47,7 +47,7 @@
     "ember-ajax": "^3.0.0",
     "ember-browserify": "^1.1.12",
     "ember-cli": "2.17.1",
-    "ember-cli-active-link-wrapper": "0.3.2",
+    "ember-cli-active-link-wrapper": "0.5.0",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.17.0",
     "ember-cli-barcode": "donaldwasserman/ember-cli-barcode#master",
