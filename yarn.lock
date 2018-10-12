@@ -4915,11 +4915,11 @@ ember-browserify@^1.1.12:
     through2 "^2.0.0"
     walk-sync "^0.2.7"
 
-ember-cli-active-link-wrapper@0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/ember-cli-active-link-wrapper/-/ember-cli-active-link-wrapper-0.3.2.tgz#43582f6b1c157ab9f0a5a5f66348e5a3b65de1dc"
+ember-cli-active-link-wrapper@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-active-link-wrapper/-/ember-cli-active-link-wrapper-0.5.0.tgz#daf7d6eecde81546fbaca30a05396bce647f2540"
   dependencies:
-    ember-cli-babel "^5.1.5"
+    ember-cli-babel "^6.16.0"
 
 ember-cli-app-version@^3.0.0:
   version "3.1.3"
